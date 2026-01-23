@@ -1,4 +1,5 @@
 require 'socket'
+require_relative 'request'
 
 class HTTPServer
 
@@ -20,11 +21,24 @@ class HTTPServer
       puts data
       puts '-' * 40
 
-      #request = Request.new(data)
+      request = Request.new(data)
 
-      html = "<h1>Hello, World!</h1>"
 
-      session.print "HTTP/1.1 200\r\n"
+
+
+      p request
+
+
+      if request.resource == "/hello"
+        html = "<h1>Hello, World!</h1>"
+        status = "200 OK"
+      else
+        html = "<h1>WAT</h1>"
+        status = "404 NOT FOUND"
+      end
+
+
+      session.print "HTTP/1.1 #{status}\r\n"
       session.print "Content-Type: text/html\r\n"
       session.print "\r\n"
       session.print html
