@@ -12,9 +12,10 @@ class Request
     @headers = {
     }
 
+    
 
     i = 0
-    while i < lines.length
+    while i < lines.length && lines[i] != [""]
       key, value = lines[i].split(": ")
       @headers[key] = value
       p key
@@ -22,7 +23,12 @@ class Request
       i = i +1
     end 
 
+    
+
   end
 
-  
-  #p Request.new(File.read("get-examples.request.txt"))
+end
+
+#p "Jag körs i: #{Dir.pwd()}"
+#p Dir.entries("./handout/1 - example_requests")
+#p Request.new(File.read("./handout/1 - example_requests/get-fruits-with-filter.request.txt"))

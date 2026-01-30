@@ -30,7 +30,8 @@ class HTTPServer
 
 
       if request.resource == "/hello"
-        html = "<h1>Hello, World!</h1>"
+        html = "<h1>Hello, World!</h1>
+                <h4> hi </h4>"
         status = "200 OK"
       else
         html = "<h1>WAT</h1>"
