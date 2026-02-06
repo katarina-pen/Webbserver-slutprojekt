@@ -26,21 +26,30 @@ class HTTPServer
 
 
 
-      p request
+      # p request
 
 
-      if request.resource == "/hello"
-        html = "<h1>Hello, World!</h1>
-                <h4> hi </h4>"
+      # kolla om det finns någon sån fil öht
+      if File.exist?("./lib/#{request.resource}")
+      #if request.resource == "/hello.html"
+        # html = "<h1>Hello, World!</h1>
+        #         <h4> hi </h4>"
+        @resource = request.resource
+        html = File.read("./lib/#{@resource}")
+        
+        #Vad var det för typ fil?
+        
+        content_type = "text/html"
         status = "200 OK"
       else
-        html = "<h1>WAT</h1>"
+        html = "<h1>WAT</h1>
+                <h2>Could not find page<h2>"
         status = "404 NOT FOUND"
       end
 
 
       session.print "HTTP/1.1 #{status}\r\n"
-      session.print "Content-Type: text/html\r\n"
+      session.print "Content-Type: #{content_type}\r\n"
       session.print "\r\n"
       session.print html
       session.close

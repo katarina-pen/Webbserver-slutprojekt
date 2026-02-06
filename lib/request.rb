@@ -1,7 +1,7 @@
 
 class Request
 
-  attr_reader :resource
+  attr_reader :resource, :method, :version, :headers
 
   def initialize (request_string)
 
@@ -15,7 +15,7 @@ class Request
     
 
     i = 0
-    while i < lines.length && lines[i] != [""]
+    while i < lines.length && lines[i] != ""
       key, value = lines[i].split(": ")
       @headers[key] = value
       p key
