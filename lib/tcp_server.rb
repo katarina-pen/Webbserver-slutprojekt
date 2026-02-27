@@ -1,5 +1,6 @@
 require 'socket'
 require_relative 'request'
+require_relative 'response'
 
 class HTTPServer
 
@@ -12,6 +13,7 @@ class HTTPServer
     puts "Listening on #{@port}"
 
     while session = server.accept
+      #Request
       data = ''
       while line = session.gets and line !~ /^\s*$/
         data += line
@@ -23,44 +25,43 @@ class HTTPServer
 
       request = Request.new(data)
 
-
-
-
-      # p request
-
-
-      # kolla om det finns någon sån fil öht
-      maybe_file = "./lib/#{request.resource}"
+          maybe_file = "./lib/#{request.resource}"
+          
+      # kolla om det finns någon sån fil
       if File.exist?(maybe_file)
         p "-------+++++++++----------------------------"
         p "maybe_file split etc lagra värdet"
         p "Filen:#{maybe_file}"
         #ganska scuffed solution, ÄNDRA sen!!!!!!!
-        filtyp= maybe_file.split(".")
+        filename, filtyp = maybe_file.split(".")
         p "Filtyp, typ:#{filtyp[2]}"
-        #Checkar content type
+        
+        
+        
+
+        #klassmetod i prog2-boken
+        #content_type = MimeType.for(filtyp)
+      
+      #Checkar content type
         #images
-        if filtyp[2] == "png"
-          content_type ="image/png"
-        elsif filtyp[2] == "jpg"
-          content_type = "text/jpeg"
-        #text
-        elsif filtyp[2] == "css"
-          content_type = "text/css"
-        elsif filtyp[2] == "html"
-          content_type = "text/html"
-        elsif filtyp[2] == "js"
-          content_type = "text/javascript"
-        end
+        # if filtyp == "png"
+        #   content_type ="image/png"
+        # elsif filtyp == "jpg"
+        #   content_type = "/jpeg"
+        # #text
+        # elsif filtyp == "css"
+        #   content_type = "text/css"
+        # elsif filtyp == "html"
+        #   content_type = "text/html"
+        # elsif filtyp == "js"
+        #   content_type = "text/javascript"
+        # end
 
         
         @resource = request.resource
-        body = File.read("./lib#{@resource}")
-        
-        #Vad var det för typ fil?
-        
+        body = File.binread("./lib#{@resource}")
+        content_length = body.bytesize        
 
-        content_type = "text/html"
         status = "200 OK"
       else
         body = "<h1>WAT</h1>
@@ -68,11 +69,10 @@ class HTTPServer
         status = "404 NOT FOUND"
       end
 
+      response = Response.new(status, content_type, content_length, body)
 
-      session.print "HTTP/1.1 #{status}\r\n"
-      session.print "Content-Type: #{content_type}\r\n"
-      session.print "\r\n"
-      session.print body
+      session.print response.to_s
+      #session.print "HTTP/1.1 #{status}\r\nContent-Type: #{content_type}\r\nContent-Length: #{content_length}\r\n\r\n#{body}"
       session.close
     end
   end
