@@ -26,42 +26,34 @@ class HTTPServer
       request = Request.new(data)
 
           maybe_file = "./lib/#{request.resource}"
-          
+
+      routes = [
+        { resource: "/", html: "<h1>Välkommen!</h1>" },
+        { resource: "/hello", html: "<h1>Hello!</h1>" }
+    ]
+
+      routes.each do |i|
+        puts i
+        if request.resource == i[resource] 
+          html = i[html]
+        end
+      end
+
+      
+
+
+
       # kolla om det finns någon sån fil
       if File.exist?(maybe_file)
         p "-------+++++++++----------------------------"
         p "maybe_file split etc lagra värdet"
         p "Filen:#{maybe_file}"
-        #ganska scuffed solution, ÄNDRA sen!!!!!!!
         filename, filtyp = maybe_file.split(".")
         p "Filtyp, typ:#{filtyp[2]}"
-        
-        
-        
-
-        #klassmetod i prog2-boken
-        #content_type = MimeType.for(filtyp)
-      
-      #Checkar content type
-        #images
-        # if filtyp == "png"
-        #   content_type ="image/png"
-        # elsif filtyp == "jpg"
-        #   content_type = "/jpeg"
-        # #text
-        # elsif filtyp == "css"
-        #   content_type = "text/css"
-        # elsif filtyp == "html"
-        #   content_type = "text/html"
-        # elsif filtyp == "js"
-        #   content_type = "text/javascript"
-        # end
-
         
         @resource = request.resource
         body = File.binread("./lib#{@resource}")
         content_length = body.bytesize        
-
         status = "200 OK"
       else
         body = "<h1>WAT</h1>
@@ -69,10 +61,11 @@ class HTTPServer
         status = "404 NOT FOUND"
       end
 
-      response = Response.new(status, content_type, content_length, body)
+    
+
+      response = Response.new(status, filtyp, content_length, body)
 
       session.print response.to_s
-      #session.print "HTTP/1.1 #{status}\r\nContent-Type: #{content_type}\r\nContent-Length: #{content_length}\r\n\r\n#{body}"
       session.close
     end
   end
