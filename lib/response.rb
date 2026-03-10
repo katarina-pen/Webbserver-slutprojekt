@@ -16,12 +16,3 @@ class Response
   end
   
 end
-
-  routes = [
-        { resource: "/", html: "<h1>Välkommen!</h1>" },
-        { resource: "/hello", html: "<h1>Hello!</h1>" }
-    ]
-
-routes.each do |i|
-        puts i
-      end

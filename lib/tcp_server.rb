@@ -6,6 +6,10 @@ class HTTPServer
 
   def initialize(port)
     @port = port
+    @routes = [
+    { resource: "/", html: "<h1>Välkommen!</h1>" },
+    { resource: "/hello", html: "<h1>Hello!</h1>" }
+    ]
   end
 
   def start
@@ -25,26 +29,14 @@ class HTTPServer
 
       request = Request.new(data)
 
-          maybe_file = "./lib/#{request.resource}"
-
-      routes = [
-        { resource: "/", html: "<h1>Välkommen!</h1>" },
-        { resource: "/hello", html: "<h1>Hello!</h1>" }
-    ]
-
-      routes.each do |i|
-        puts i
-        if request.resource == i[resource] 
-          html = i[html]
-        end
-      end
+      maybe_file = "./lib/#{request.resource}"
 
       
-
-
-
-      # kolla om det finns någon sån fil
-      if File.exist?(maybe_file)
+      resultRoute = @routes.find {|route| route[:resource] == request.resource}
+      x = 1
+      if resultRoute    
+        body = resultRoute[:html]
+      elsif File.exist?(maybe_file)
         p "-------+++++++++----------------------------"
         p "maybe_file split etc lagra värdet"
         p "Filen:#{maybe_file}"
