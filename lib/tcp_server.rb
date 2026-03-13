@@ -33,9 +33,11 @@ class HTTPServer
 
       
       resultRoute = @routes.find {|route| route[:resource] == request.resource}
-      x = 1
+      
       if resultRoute    
         body = resultRoute[:html]
+        #filtyp = "html"
+        status = "200 OK"
       elsif File.exist?(maybe_file)
         p "-------+++++++++----------------------------"
         p "maybe_file split etc lagra värdet"
@@ -45,14 +47,14 @@ class HTTPServer
         
         @resource = request.resource
         body = File.binread("./lib#{@resource}")
-        content_length = body.bytesize        
         status = "200 OK"
       else
         body = "<h1>WAT</h1>
                 <h2>Could not find page<h2>"
         status = "404 NOT FOUND"
       end
-
+      
+      content_length = body.bytesize
     
 
       response = Response.new(status, filtyp, content_length, body)
