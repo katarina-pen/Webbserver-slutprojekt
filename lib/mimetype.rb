@@ -14,8 +14,10 @@ class MimeType
       elsif filtyp == "js"
               content_type = "text/javascript"
       end
+      
+    return content_type
+        #return "Content-Type: #{content_type}"
 
-    return "Content-Type#{content_type}"
 
   end
 

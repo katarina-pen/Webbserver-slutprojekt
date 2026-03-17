@@ -12,6 +12,13 @@ class HTTPServer
     ]
   end
 
+
+   #r = Router.new()
+   #r.add_route("GET", "/wat", "<h1>WAT</h1>")
+
+
+
+
   def start
     server = TCPServer.new(@port)
     puts "Listening on #{@port}"
@@ -34,23 +41,30 @@ class HTTPServer
       
       resultRoute = @routes.find {|route| route[:resource] == request.resource}
       
+      #resultRoute = r.match(request)
+
       if resultRoute    
         body = resultRoute[:html]
-        #filtyp = "html"
+        filtyp = "html"
         status = "200 OK"
       elsif File.exist?(maybe_file)
         p "-------+++++++++----------------------------"
         p "maybe_file split etc lagra värdet"
         p "Filen:#{maybe_file}"
-        filename, filtyp = maybe_file.split(".")
-        p "Filtyp, typ:#{filtyp[2]}"
-        
+        nada, filename, filtyp = maybe_file.split(".")
+        #p "Filtyp, typ:#{filtyp[2]}"
+        p "Filtyp #{filtyp}"
+        #p "#{nada}"
+        #p "#{filename}"
+        #p "#{filtyp}"
+
         @resource = request.resource
         body = File.binread("./lib#{@resource}")
         status = "200 OK"
       else
         body = "<h1>WAT</h1>
                 <h2>Could not find page<h2>"
+        filtyp = "html"
         status = "404 NOT FOUND"
       end
       
@@ -67,3 +81,4 @@ end
 
 server = HTTPServer.new(4567)
 server.start
+x=1
