@@ -1,19 +1,20 @@
 require 'socket'
 require_relative 'request'
 require_relative 'response'
+require_relative 'routes'
+
 
 class HTTPServer
 
   def initialize(port)
     @port = port
-    @routes = [
-    { resource: "/", html: "<h1>Välkommen!</h1>" },
-    { resource: "/hello", html: "<h1>Hello!</h1>" }
-    ]
+    # @routes = [
+    # { resource: "/", html: "<h1>Välkommen!</h1>" },
+    # { resource: "/hello", html: "<h1>Hello!</h1>" }
+    # ]
   end
 
 
-   #r = Router.new()
    #r.add_route("GET", "/wat", "<h1>WAT</h1>")
 
 
@@ -36,12 +37,15 @@ class HTTPServer
 
       request = Request.new(data)
 
+      r = Router.new
+
+
       maybe_file = "./lib/#{request.resource}"
 
+      #letar efter en route som matchar request
+      #resultRoute = @routes.find {|route| route[:resource] == request.resource}
       
-      resultRoute = @routes.find {|route| route[:resource] == request.resource}
-      
-      #resultRoute = r.match(request)
+      resultRoute = r.match(request)
 
       if resultRoute    
         body = resultRoute[:html]
@@ -52,11 +56,7 @@ class HTTPServer
         p "maybe_file split etc lagra värdet"
         p "Filen:#{maybe_file}"
         nada, filename, filtyp = maybe_file.split(".")
-        #p "Filtyp, typ:#{filtyp[2]}"
         p "Filtyp #{filtyp}"
-        #p "#{nada}"
-        #p "#{filename}"
-        #p "#{filtyp}"
 
         @resource = request.resource
         body = File.binread("./lib#{@resource}")

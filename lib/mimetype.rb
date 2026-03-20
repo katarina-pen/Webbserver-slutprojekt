@@ -16,7 +16,6 @@ class MimeType
       end
       
     return content_type
-        #return "Content-Type: #{content_type}"
 
 
   end
