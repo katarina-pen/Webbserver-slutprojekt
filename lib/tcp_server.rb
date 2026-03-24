@@ -8,18 +8,11 @@ class HTTPServer
 
   def initialize(port)
     @port = port
-    # @routes = [
-    # { resource: "/", html: "<h1>Välkommen!</h1>" },
-    # { resource: "/hello", html: "<h1>Hello!</h1>" }
-    # ]
   end
 
 
-   #r.add_route("GET", "/wat", "<h1>WAT</h1>")
 
-
-
-
+   
   def start
     server = TCPServer.new(@port)
     puts "Listening on #{@port}"
@@ -36,15 +29,10 @@ class HTTPServer
       puts '-' * 40
 
       request = Request.new(data)
-
-      r = Router.new
-
-
       maybe_file = "./lib/#{request.resource}"
-
-      #letar efter en route som matchar request
-      #resultRoute = @routes.find {|route| route[:resource] == request.resource}
-      
+      #Routes🤯
+      r = Router.new
+      r.add_route("GET", "/wat2", "<h1>WAT2</h1>")
       resultRoute = r.match(request)
 
       if resultRoute    
