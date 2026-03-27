@@ -6,16 +6,16 @@ require_relative 'routes'
 
 class HTTPServer
 
-  def initialize(port)
+  def initialize(port, router)
     @port = port
+    @router = Router.new
   end
-
-
-
    
   def start
     server = TCPServer.new(@port)
     puts "Listening on #{@port}"
+
+     
 
     while session = server.accept
       #Request
@@ -30,10 +30,8 @@ class HTTPServer
 
       request = Request.new(data)
       maybe_file = "./lib/#{request.resource}"
-      #Routes🤯
-      r = Router.new
-      r.add_route("GET", "/wat2", "<h1>WAT2</h1>")
-      resultRoute = r.match(request)
+      resultRoute = @router.match(request)
+
 
       if resultRoute    
         body = resultRoute[:html]
@@ -66,7 +64,3 @@ class HTTPServer
     end
   end
 end
-
-server = HTTPServer.new(4567)
-server.start
-x=1

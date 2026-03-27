@@ -13,14 +13,20 @@ class Router
   end
 
 
+  def get(resource, html)
+    add_route("GET", resource, html)    
+  end
+
+  def post(resource, html)
+      
+  end
+
+  private 
   def add_route(method, resource, html)
     routeHash = {:method => method, :resource => resource, :html => html}
     @routes << routeHash
 
   end
-
-
-
 
 
 
