@@ -8,7 +8,7 @@ class HTTPServer
 
   def initialize(port, router)
     @port = port
-    @router = Router.new
+    @router = router
   end
    
   def start
@@ -34,7 +34,7 @@ class HTTPServer
 
 
       if resultRoute    
-        body = resultRoute[:html]
+        body = resultRoute[:block].call()
         filtyp = "html"
         status = "200 OK"
       elsif File.exist?(maybe_file)
@@ -64,3 +64,4 @@ class HTTPServer
     end
   end
 end
+x=1

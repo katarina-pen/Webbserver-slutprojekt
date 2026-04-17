@@ -2,28 +2,26 @@ class Router
     
   def initialize
       @routes = [
-    { method: "GET", resource: "/", html: "<h1>Välkommen!</h1>" },
-    { method: "GET", resource: "/hello", html: "<h1>Hello!</h1>" }
     ]   
   end
 
 
   def match(request)
-    @resultRoute = @routes.find {|route| route[:resource] == request.resource}
+    @routes.find {|route| route[:resource] == request.resource}
   end
 
 
-  def get(resource, html)
-    add_route("GET", resource, html)    
+  def get(resource, &block)
+    add_route("GET", resource, block)    
   end
 
-  def post(resource, html)
-      
+  def post(resource, &block)
+    add_route("POST", resource, block)
   end
 
   private 
-  def add_route(method, resource, html)
-    routeHash = {:method => method, :resource => resource, :html => html}
+  def add_route(method, resource, block)
+    routeHash = {:method => method, :resource => resource, :block => block}
     @routes << routeHash
 
   end
