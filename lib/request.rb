@@ -20,7 +20,7 @@ class Request
       @headers[key] = value
       p key
       p value
-      i = i +1
+      i = i + 1
     end 
 
     

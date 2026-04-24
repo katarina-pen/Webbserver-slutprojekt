@@ -12,7 +12,25 @@ class Router
 
 
   def get(resource, &block)
-    add_route("GET", resource, block)    
+    add_route("GET", resource, block)   
+    puts "Detta är resource:#{resource}" 
+    section = resource.split('/') 
+    # p "#{section}"
+    # p "#{section[0]}"
+    # p "#{section[1]}"
+    # p "#{section[2]}"
+    sections = {
+      :section => "#{section}"
+
+    }
+    # p sections[:section]
+    # section << sections
+    # p "ALL sections:#{sections}"
+    # p "#{sections[:section]}"
+    puts "Sections: #{sections}"
+    puts "Resource: #{resource}"
+    p section[1]
+    p section[2]
   end
 
   def post(resource, &block)
@@ -30,3 +48,4 @@ class Router
 
   
 end
+
