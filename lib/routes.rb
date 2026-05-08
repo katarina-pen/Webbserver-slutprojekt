@@ -15,22 +15,48 @@ class Router
     add_route("GET", resource, block)   
     puts "Detta är resource:#{resource}" 
     section = resource.split('/') 
-    # p "#{section}"
-    # p "#{section[0]}"
-    # p "#{section[1]}"
-    # p "#{section[2]}"
-    sections = {
-      :section => "#{section}"
+    # puts "SECTION: #{section}"
+   
+    
+    # section = {
+    #   # :section => "#{section}"
+    #   :section => 
+       
+      section.each do |i|
+        hash = Hash [:section]=>[*section]
+        puts "array #{i}" 
+        puts hash.inspect
+      end
+      
+      p section
 
-    }
+        section.each do |i|  
+          hash = Hash.new
+          :section => section
+          
+        end
+
+   
+
+
+    # }
+    
+      # section.each do |hash|
+      #   hash[:section] = section
+      # end
+
+    # hash = Hash[*section]
+    
+    # puts hash.inspect
+
+   
     # p sections[:section]
     # section << sections
     # p "ALL sections:#{sections}"
     # p "#{sections[:section]}"
-    puts "Sections: #{sections}"
-    puts "Resource: #{resource}"
-    p section[1]
-    p section[2]
+    # puts "Resource: #{resource}"
+    # p "#{section[1]}"
+    # p "#{section[2]}"
   end
 
   def post(resource, &block)

@@ -10,9 +10,9 @@ end
 #r.get("/", "<h1>slash</h1>")
 #r.get("/hello", "<h1>Hello!2</h1>")
 
-r.get("/users/:id") do |id|
-      "Hej #{id}!"
-end
+# r.get("/users/:id") do |id|
+#       "Hej #{id}!"
+# end
 
 
 server = HTTPServer.new(4567, r)
